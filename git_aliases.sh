@@ -63,41 +63,37 @@ alias gsuir='echo git submodule update --init --recursive;git submodule update -
 ########################
 
 # Add Tracked files and Commit ammend
-gac(){
-  ga -u && gcan
-}
+alias gac='echo ga -u && gcan;ga -u && gcan'
 
 # Add Tracked files, Commit ammend and force push to origin
-gacp(){
-  ga -u && gcan && gpsof
-}
+alias gacp='echo ga -u && gcan && gpsof;ga -u && gcan && gpsof'
 
 # Refer: https://stackoverflow.com/questions/29914052/how-to-git-rebase-a-branch-with-the-onto-command
 # Rebase on origin/master
 # Usage : grom <oldparent>
-grom(){
+function grom(){
   git rebase --onto origin/master $1
 }
 
 # Usage : grocm <oldparent>
 # Rebase on only checked out master on local machine
-grocm(){
+function grocm(){
   git rebase --onto master $1
 }
 
 # Git commit with message
-gcm(){
+function gcm(){
   git commit -m "$1"
 }
 
 # Git fetch and checkout a branch
-gfco(){
+function gfco(){
   gf && gco "$1"
 }
 
 # https://craftquest.io/guides/git/git-workflow-tools/git-subtrees
 # Git subtree pull
-gsubp(){
+function gsubp(){
   # Currently we only have interop repo added to subtree
   # Change git repo as needed
   git subtree pull --prefix third_party/interop git@gitlab.com:abc.git master --squash
