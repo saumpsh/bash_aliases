@@ -72,13 +72,38 @@ alias gacp='echo ga -u && gcan && gpsof;ga -u && gcan && gpsof'
 # Rebase on origin/master
 # Usage : grom <oldparent>
 function grom(){
+  if [ -z "$1" ]; then
+    echo "Error: old parent branch/commit not provided"
+    echo "Usage: grom <oldparent>"
+    return 1
+  fi
   git rebase --onto origin/master $1
 }
 
 # Usage : grocm <oldparent>
 # Rebase on only checked out master on local machine
 function grocm(){
+  if [ -z "$1" ]; then
+    echo "Error: old parent branch/commit not provided"
+    echo "Usage: grocm <oldparent>"
+    return 1
+  fi
   git rebase --onto master $1
+}
+
+# Git rebase onto : gro <newparent> <oldparent>
+function gro(){
+  if [ -z "$1" ]; then
+    echo "Error: new parent branch/commit not provided"
+    echo "Usage: gro <newparent> <oldparent>"
+    return 1
+  fi
+  if [ -z "$2" ]; then
+    echo "Error: old parent branch/commit not provided"
+    echo "Usage: gro <newparent> <oldparent>"
+    return 1
+  fi
+  git rebase --onto $1 $2
 }
 
 # Append issue reference to Git commit message
