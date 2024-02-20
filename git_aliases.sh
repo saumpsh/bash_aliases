@@ -81,8 +81,35 @@ function grocm(){
   git rebase --onto master $1
 }
 
+# Append issue reference to Git commit message
+gcm() {
+  if [[ $# -ne 1 ]]; then
+    # display usage
+    echo "Usage: gcm \"Commit Msg\""
+    echo "Automatically appends the issue reference (if found) to the commit message."
+  else
+    local branch_suffix
+    branch_suffix=$(git rev-parse --abbrev-ref HEAD | cut -d/ -f2)
+    local issue_reference
+    if [[ $branch_suffix =~ ^([A-Z]+-[0-9]+) ]]; then
+      if grep -q 'zsh' <<< "$SHELL"; then
+        issue_reference="${match[1]}"
+      else
+        issue_reference="${BASH_REMATCH[1]}"
+      fi
+    fi
+
+    if [ -z "$issue_reference" ]; then
+      echo -e "\033[0;31mCould not extract issue reference from branch name! Issue reference must match [A-Z]+-[0-9]+"
+    else
+      echo "git commit -m \"$issue_reference $1 \""
+      git commit -m "$issue_reference $1"
+    fi
+  fi
+}
+
 # Git commit with message
-function gcm(){
+function gcmm(){
   git commit -m "$1"
 }
 
