@@ -106,8 +106,13 @@ function gro(){
   git rebase --onto $1 $2
 }
 
+# Git commit with message
+function gcm(){
+  git commit -m "$1"
+}
+
 # Append issue reference to Git commit message
-gcm() {
+gcmm() {
   if [[ $# -ne 1 ]]; then
     # display usage
     echo "Usage: gcm \"Commit Msg\""
@@ -131,11 +136,6 @@ gcm() {
       git commit -m "$issue_reference $1"
     fi
   fi
-}
-
-# Git commit with message
-function gcmm(){
-  git commit -m "$1"
 }
 
 # Git fetch and checkout a branch
